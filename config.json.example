@@ -1,5 +1,5 @@
 {
-    "web_server": {
+    "http_engine": {
         "server_name": "server-name",
         "listen_address": "127.0.0.1:8888",
         "listen_address_tls": "127.0.0.1:8443",

@@ -26,13 +26,13 @@ type (
 
 	// Configuration defines parameters used by the application
 	Configuration struct {
-		WebServer struct {
+		HTTPEngine struct {
 			ServerName       string `json:"server_name"`
 			ListenAddress    string `json:"listen_address"`
 			ListenAddressTLS string `json:"tls_listen_address"`
 			CertFile         string `json:"tls_cert_file"`
 			KeyFile          string `json:"tls_key_file"`
-		} `json:"web_server"`
+		} `json:"http_engine"`
 	}
 )
 
@@ -58,9 +58,9 @@ func (k *Kernel) Prepare(ctx context.Context, configFile string) error {
 
 // Run executes top-level logic of the application components
 func (k *Kernel) Run(failure chan<- error) {
-	if err := k.router.RunEngine(); err != nil {
+	if err := k.router.Execute(); err != nil {
 		failure <- fmt.Errorf(
-			"unable to start router engine: %w",
+			"unable to start HTTP engine: %w",
 			err,
 		)
 	}

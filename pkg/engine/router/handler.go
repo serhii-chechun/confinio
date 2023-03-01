@@ -6,7 +6,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func (e *Engine) handler(serveTLS bool) fasthttp.RequestHandler {
+func (r *Runtime) handler(serveTLS bool) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		defer func() {
 			if err := recover(); err != nil {
@@ -16,6 +16,6 @@ func (e *Engine) handler(serveTLS bool) fasthttp.RequestHandler {
 		}()
 
 		// handle a request
-		e.mux.Handler(ctx)
+		r.mux.Handler(ctx)
 	}
 }
