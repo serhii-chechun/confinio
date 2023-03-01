@@ -5,13 +5,17 @@ import (
 )
 
 func (k *Kernel) createRouter() {
+	var (
+		c = k.config
+	)
+
 	engine := router.NewRouter(
 		&router.RuntimeConfiguration{
-			ServerName:       k.config.HTTPEngine.ServerName,
-			ListenAddress:    k.config.HTTPEngine.ListenAddress,
-			ListenAddressTLS: k.config.HTTPEngine.ListenAddressTLS,
-			CertFile:         k.config.HTTPEngine.CertFile,
-			KeyFile:          k.config.HTTPEngine.KeyFile,
+			ServerName:       c.HTTPEngine.ServerName,
+			ListenAddress:    c.HTTPEngine.ListenAddress,
+			ListenAddressTLS: c.HTTPEngine.ListenAddressTLS,
+			CertFile:         c.HTTPEngine.CertFile,
+			KeyFile:          c.HTTPEngine.KeyFile,
 		},
 	)
 	if k.router == nil {
