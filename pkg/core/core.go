@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"confinio/pkg/engine/router"
+	"confinio/pkg/settings"
 )
 
 type (
@@ -16,9 +17,22 @@ type (
 )
 
 type (
-	// Kernel implements "Core" interface and defines internal state of the central components
+	// Kernel implements "Core" interface and
+	// defines internal state of the central components
 	Kernel struct {
 		router router.Router
+		config Configuration
+	}
+
+	// Configuration defines parameters used by the application
+	Configuration struct {
+		WebServer struct {
+			ServerName       string `json:"server_name"`
+			ListenAddress    string `json:"listen_address"`
+			ListenAddressTLS string `json:"tls_listen_address"`
+			CertFile         string `json:"tls_cert_file"`
+			KeyFile          string `json:"tls_key_file"`
+		} `json:"web_server"`
 	}
 )
 
@@ -29,7 +43,16 @@ func NewKernel() *Kernel {
 
 // Prepare applies application-wide initialization procedures
 func (k *Kernel) Prepare(ctx context.Context, configFile string) error {
-	k.router = router.NewEngine()
+	if err := settings.NewConfiguration().
+		FromFile(configFile, settings.FileFormatJSON).
+		Populate(&k.config); err != nil {
+		return fmt.Errorf(
+			"configuration processing issue: %w",
+			err,
+		)
+	}
+
+	k.createRouter()
 	return nil
 }
 
