@@ -11,7 +11,7 @@ func (k *Kernel) createRouter() {
 
 	engine := router.NewRouter(
 		&router.RuntimeConfiguration{
-			ServerName:       c.HTTPEngine.ServerName,
+			EngineName:       c.HTTPEngine.Name,
 			ListenAddress:    c.HTTPEngine.ListenAddress,
 			ListenAddressTLS: c.HTTPEngine.ListenAddressTLS,
 			CertFile:         c.HTTPEngine.CertFile,

@@ -27,7 +27,7 @@ type (
 	// Configuration defines parameters used by the application
 	Configuration struct {
 		HTTPEngine struct {
-			ServerName       string `json:"server_name"`
+			Name             string `json:"name"`
 			ListenAddress    string `json:"listen_address"`
 			ListenAddressTLS string `json:"tls_listen_address"`
 			CertFile         string `json:"tls_cert_file"`

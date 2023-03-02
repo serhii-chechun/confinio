@@ -27,7 +27,7 @@ type (
 
 	// RuntimeConfiguration defines parameters used by HTTP runtime components
 	RuntimeConfiguration struct {
-		ServerName       string
+		EngineName       string
 		ListenAddress    string
 		ListenAddressTLS string
 		CertFile         string
@@ -108,7 +108,7 @@ func (r *Runtime) create(address string) (*fasthttp.Server, net.Listener, error)
 	}
 
 	return &fasthttp.Server{
-		Name:                 r.c.ServerName,
+		Name:                 r.c.EngineName,
 		NoDefaultContentType: true,
 	}, listener, nil
 }
