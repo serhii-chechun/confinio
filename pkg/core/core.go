@@ -20,19 +20,8 @@ type (
 	// Kernel implements "Core" interface and
 	// defines internal state of the central components
 	Kernel struct {
-		router router.Router
-		config Configuration
-	}
-
-	// Configuration defines parameters used by the application
-	Configuration struct {
-		HTTPEngine struct {
-			Name             string `json:"name"`
-			ListenAddress    string `json:"listen_address"`
-			ListenAddressTLS string `json:"tls_listen_address"`
-			CertFile         string `json:"tls_cert_file"`
-			KeyFile          string `json:"tls_key_file"`
-		} `json:"http_engine"`
+		servers []router.Router
+		config  Configuration
 	}
 )
 
@@ -52,13 +41,19 @@ func (k *Kernel) Prepare(ctx context.Context, configFile string) error {
 		)
 	}
 
-	k.createRouter()
+	k.createServers()
 	return nil
 }
 
 // Run executes top-level logic of the application components
 func (k *Kernel) Run(failure chan<- error) {
-	if err := k.router.Execute(); err != nil {
+	for i := range k.servers {
+		go k.spawnServer(i, failure)
+	}
+}
+
+func (k *Kernel) spawnServer(idx int, failure chan<- error) {
+	if err := k.servers[idx].Execute(); err != nil {
 		failure <- fmt.Errorf(
 			"unable to start HTTP engine: %w",
 			err,

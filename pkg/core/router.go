@@ -4,21 +4,24 @@ import (
 	"confinio/pkg/engine/router"
 )
 
-func (k *Kernel) createRouter() {
+func (k *Kernel) createServers() {
 	var (
-		c = k.config
+		servers = make([]router.Router, len(k.config.Servers))
 	)
 
-	engine := router.NewRouter(
-		&router.RuntimeConfiguration{
-			EngineName:       c.HTTPEngine.Name,
-			ListenAddress:    c.HTTPEngine.ListenAddress,
-			ListenAddressTLS: c.HTTPEngine.ListenAddressTLS,
-			CertFile:         c.HTTPEngine.CertFile,
-			KeyFile:          c.HTTPEngine.KeyFile,
-		},
-	)
-	if k.router == nil {
-		k.router = engine
+	for i, s := range k.config.Servers {
+		servers[i] = router.NewRouter(
+			&router.RuntimeConfiguration{
+				ServerName:       s.HTTPEngine.ServerName,
+				ListenAddress:    s.HTTPEngine.ListenAddress,
+				ListenAddressTLS: s.HTTPEngine.ListenAddressTLS,
+				CertFile:         s.HTTPEngine.CertFile,
+				KeyFile:          s.HTTPEngine.KeyFile,
+			},
+		)
+	}
+
+	if k.servers == nil {
+		k.servers = servers
 	}
 }

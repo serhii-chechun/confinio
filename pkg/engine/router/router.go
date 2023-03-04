@@ -27,7 +27,7 @@ type (
 
 	// RuntimeConfiguration defines parameters used by HTTP runtime components
 	RuntimeConfiguration struct {
-		EngineName       string
+		ServerName       string
 		ListenAddress    string
 		ListenAddressTLS string
 		CertFile         string
@@ -53,7 +53,7 @@ func (r *Runtime) Execute() error {
 		if err := r.start(
 			true,
 			r.c.ListenAddressTLS,
-			"Starting HTTPS runtime components: %s",
+			"Starting HTTPS engine: %s",
 			fault,
 		); err != nil {
 			return err
@@ -63,7 +63,7 @@ func (r *Runtime) Execute() error {
 	if err := r.start(
 		false,
 		r.c.ListenAddress,
-		"Starting HTTP runtime components: %s",
+		"Starting HTTP engine: %s",
 		fault,
 	); err != nil {
 		return err
@@ -108,7 +108,7 @@ func (r *Runtime) create(address string) (*fasthttp.Server, net.Listener, error)
 	}
 
 	return &fasthttp.Server{
-		Name:                 r.c.EngineName,
+		Name:                 r.c.ServerName,
 		NoDefaultContentType: true,
 	}, listener, nil
 }

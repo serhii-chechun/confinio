@@ -13,12 +13,11 @@ import (
 
 const (
 	_name    = "confinio"
-	_version = "v0.0.1"
+	_version = "v0.0.2"
 )
 
 var (
-	// _confinio defines the state properties of the "Main" function
-	_confinio = struct {
+	_main = struct {
 		ctx  context.Context
 		core core.Core
 	}{
@@ -27,7 +26,6 @@ var (
 	}
 )
 
-// Main implements entry point of the application
 func Main() {
 	var (
 		configFilename = flag.String("c", "", "configuration filename")
@@ -44,24 +42,24 @@ func Main() {
 	}
 
 	failure := make(chan error)
-	if err := _confinio.core.Prepare(
-		_confinio.ctx,
+	if err := _main.core.Prepare(
+		_main.ctx,
 		*configFilename,
 	); err != nil {
 		println(err.Error())
 		os.Exit(1)
 	}
-	go _confinio.core.Run(failure)
+	go _main.core.Run(failure)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	select {
 	case s := <-quit:
-		log.Printf("shutting down, received OS signal %s", s)
-	case <-_confinio.ctx.Done():
-		log.Println("shutting down, global context has terminated")
+		log.Printf("Shutting down: received OS signal %s", s)
+	case <-_main.ctx.Done():
+		log.Println("Shutting down: global context has terminated")
 	case err := <-failure:
-		log.Printf("shutting down due to a runtime failure: %s", err)
+		log.Printf("Shutting down: runtime failure: %s", err)
 	}
 }

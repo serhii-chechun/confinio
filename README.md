@@ -2,6 +2,6 @@
 ## HTTP & reverse proxy server. API gateway, mocking & testing server. CMS engine.
 
 Current features (in development):
-* Serving static and index files (HTTP/S server)
-* Dispatching HTTP requests to the backends (reverse proxy)
-* CMS engine
+* Multi-domain serving of static files, indexes (HTTP/S server)
+* Dispatching HTTP requests to the backends (reverse proxy): wo mutations, custom headers
+* CMS engine initial support: user sessions (via cookies, URL params, headers/tokens), RBAC
