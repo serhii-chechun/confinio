@@ -1,4 +1,4 @@
-module confinio
+module porta
 
 go 1.20
 

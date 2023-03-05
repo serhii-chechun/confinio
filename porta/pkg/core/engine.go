@@ -1,17 +1,17 @@
 package core
 
 import (
-	"confinio/pkg/router"
+	"porta/pkg/engine"
 )
 
-func (k *Kernel) createServers() {
+func (k *Kernel) createEngines() {
 	var (
-		servers = make([]router.Router, len(k.config.Servers))
+		e = make([]engine.Engine, len(k.config.Servers))
 	)
 
 	for i, s := range k.config.Servers {
-		servers[i] = router.NewRouter(
-			&router.RuntimeConfiguration{
+		e[i] = engine.NewRuntime(
+			&engine.RuntimeConfiguration{
 				ServerName:       s.HTTPEngine.ServerName,
 				ListenAddress:    s.HTTPEngine.ListenAddress,
 				ListenAddressTLS: s.HTTPEngine.ListenAddressTLS,
@@ -21,7 +21,7 @@ func (k *Kernel) createServers() {
 		)
 	}
 
-	if k.servers == nil {
-		k.servers = servers
+	if k.engines == nil {
+		k.engines = e
 	}
 }

@@ -1,4 +1,4 @@
-package router
+package engine
 
 import (
 	"fmt"
@@ -11,14 +11,14 @@ import (
 )
 
 type (
-	// Router describes behaviour of the HTTP runtime components
-	Router interface {
+	// Engine describes behaviour of the HTTP runtime components
+	Engine interface {
 		Execute() error
 	}
 )
 
 type (
-	// Runtime implements "Router" interface
+	// Runtime implements "Engine" interface
 	Runtime struct {
 		c        *RuntimeConfiguration
 		mux      *router.Router
@@ -35,8 +35,8 @@ type (
 	}
 )
 
-// NewRouter returns a reference to a new instance of "Runtime" type
-func NewRouter(rc *RuntimeConfiguration) *Runtime {
+// NewRuntime returns a reference to a new instance of "Runtime" type
+func NewRuntime(rc *RuntimeConfiguration) *Runtime {
 	return &Runtime{
 		c:   rc,
 		mux: router.New(),

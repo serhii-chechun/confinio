@@ -5,7 +5,7 @@
 all: test run
 
 test:
-	go test -failfast -coverprofile=coverage.dev -count=1 confinio/...
+	go test -failfast -coverprofile=coverage.dev -count=1 machina/...
 	go tool cover -func coverage.dev
 
 run:

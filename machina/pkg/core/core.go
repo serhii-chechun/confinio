@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"confinio/pkg/router"
-
 	"github.com/pkg-wire/settings"
 )
 
@@ -21,8 +19,7 @@ type (
 	// Kernel implements "Core" interface and
 	// defines internal state of the central components
 	Kernel struct {
-		servers []router.Router
-		config  Configuration
+		config Configuration
 	}
 )
 
@@ -42,22 +39,9 @@ func (k *Kernel) Prepare(ctx context.Context, configFile string) error {
 		)
 	}
 
-	k.createServers()
 	return nil
 }
 
 // Run executes top-level logic of the application components
 func (k *Kernel) Run(failure chan<- error) {
-	for i := range k.servers {
-		go k.spawnServer(i, failure)
-	}
-}
-
-func (k *Kernel) spawnServer(idx int, failure chan<- error) {
-	if err := k.servers[idx].Execute(); err != nil {
-		failure <- fmt.Errorf(
-			"unable to start HTTP engine: %w",
-			err,
-		)
-	}
 }
