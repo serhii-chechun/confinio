@@ -1,9 +1,9 @@
 package main
 
 import (
-	"porta/confinio/porta"
+	"porta/app"
 )
 
 func main() {
-	porta.Main()
+	app.Main()
 }

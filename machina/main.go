@@ -1,9 +1,9 @@
 package main
 
 import (
-	"machina/confinio/machina"
+	"machina/app"
 )
 
 func main() {
-	machina.Main()
+	app.Main()
 }

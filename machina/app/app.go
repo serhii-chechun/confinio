@@ -1,4 +1,4 @@
-package porta
+package app
 
 import (
 	"context"
@@ -8,12 +8,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	"porta/pkg/core"
+	"machina/pkg/core"
 )
 
 const (
-	_name    = "confinio-porta"
-	_version = "v0.0.3"
+	_name    = "confinio-machina"
+	_version = "v0.0.1"
 )
 
 var (
