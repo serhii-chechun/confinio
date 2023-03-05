@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"confinio/pkg/engine/router"
-	"confinio/pkg/settings"
+	"confinio/pkg/router"
+
+	"github.com/pkg-wire/settings"
 )
 
 type (

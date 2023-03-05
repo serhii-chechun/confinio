@@ -1,7 +1,7 @@
 package core
 
 import (
-	"confinio/pkg/engine/router"
+	"confinio/pkg/router"
 )
 
 func (k *Kernel) createServers() {
