@@ -7,6 +7,6 @@
 * Multi-domain serving of static files, indexes (HTTP/S server)
 * Dispatching HTTP requests to the backends (reverse proxy): wo mutations, custom headers
 * CMS engine initial support: user sessions (via cookies, URL params, headers/tokens), RBAC
-* https://github.com/pkg-wire
+* General-purpose supporting libraries: https://github.com/pkg-wire
 
 # **Warning!!!**: Codebase is in early design stage!
