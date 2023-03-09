@@ -1,6 +1,19 @@
 {
+    "core": {
+        "http_engines": [
+            {
+                "alias": "http-engine-1",
+                "listen": "127.0.0.1:8888",
+                "tls_listen": "127.0.0.1:8443",
+                "tls_cert": "tls.crt",
+                "tls_key": "tls.key",
+                "server_name": "http-engine-name"
+            }
+        ]
+    },
     "servers": [
         {
+            "http_engine_alias": "http-engine-1",
             "domain_names": ["name1.example.com", "name2.example.com", "name.example.org"],
             "server_root": "/home/confinio/sites/example.com",
             "resource_locations": [
@@ -19,21 +32,40 @@
                             "upstream_alias": "upstream-alias-1"
                         }
                     ]
+                },
+                {
+                    "url_pattern": "/blog",
+                    "backends": [
+                        {
+                            "upstream_alias": "cms-engine-1"
+                        }
+                    ]
                 }
-            ],
-            "http_engine": {
-                "server_name": "http-engine-name",
-                "listen": "127.0.0.1:8888",
-                "tls_listen": "127.0.0.1:8443",
-                "tls_cert": "tls.crt",
-                "tls_key": "tls.key"
-            }
+            ]
+        },
+        {
+            "domain_names": ["*.sitename.com"],
+            "http_engine_alias": "http-engine-1",
+            "resource_locations": [
+                {
+                    "url_pattern": "/",
+                    "backends": [
+                        {
+                            "dial_address": "bare-rpc-tcp://cms-engine.sitename.com"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "upstreams": [
         {
             "alias": "upstream-alias-1",
             "dial_address": "https://api.server2.net/some/location:8181"
+        },
+        {
+            "alias": "cms-engine-1",
+            "dial_address": "bare-rpc-tcp://cms-engine-1.local"
         }
     ]
 }
